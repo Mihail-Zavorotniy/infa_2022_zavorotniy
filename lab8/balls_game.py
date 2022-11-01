@@ -1,3 +1,5 @@
+import random
+
 import pygame
 from pygame.draw import *
 from random import randint
@@ -31,18 +33,36 @@ lived = [0] * how_many
 bonus = [False] * how_many
 
 def new_ball(id):
+    '''
+
+    Принимает целое число. Заменяет шарик с таким номером на новый, случайно сгенерированный, и с вероятностью 10%
+    делает его бонусным.
+    '''
+
     global x, y, r, v_x, v_y, color
     x[id] = randint(50, 1150)
     y[id] = randint(50, 850)
     r[id] = randint(30, 50)
-    v_x[id] = randint(-10, 10)
-    v_y[id] = randint(-10, 10)
     color[id] = COLORS[randint(0, 5)]
     lived[id] = 0
     bonus[id] = (randint(0, 9) == 1)
+    if bonus[id]:
+        v_x[id] = randint(15, 25) * random.choice([-1, 1])
+        v_y[id] = randint(15, 25) * random.choice([-1, 1])
+    else:
+        v_x[id] = randint(-10, 10)
+        v_y[id] = randint(-10, 10)
     circle(screen, color[id], (x[id], y[id]), r[id])
 
 def pos_update():
+    '''
+
+    На каждом тике обновляет параметры всех шариков.
+    Изменяет их положение в соответствии с их скоростью.
+    При соприкосновении шарика со стенкой заменяет его соответствующую компоненту скорости на противоположную.
+    Если шарик просуществовал определённое количество тиков, заменяет его новым шариком при помощи функции new_ball.
+    Если шарик бонусный, то на каждом тике меняет его цвет.
+    '''
     global x, y, r, v_x, v_y, color
     for i in range(how_many):
         lived[i] += 1
@@ -88,3 +108,6 @@ while not finished:
 
 pygame.quit()
 print('Your score is ' + str(score) + ' points!')
+
+help(new_ball)
+help(pos_update)
