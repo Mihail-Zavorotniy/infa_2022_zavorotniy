@@ -1,8 +1,7 @@
 import random
-
 import pygame
-from pygame.draw import *
 from random import randint
+from pygame.draw import *
 pygame.init()
 
 FPS = 30
@@ -107,6 +106,3 @@ while not finished:
 
 pygame.quit()
 print('Your score is ' + str(score) + ' points!')
-
-help(new_ball)
-help(pos_update)
